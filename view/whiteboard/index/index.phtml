@@ -1,0 +1,14 @@
+<?php
+	$this->headScript()
+		->appendFile("/scripts/modules/whiteboard/tools.js")
+		->appendFile("/scripts/modules/whiteboard/managers.js")
+		->appendFile("/scripts/modules/whiteboard/app.js");
+
+	$this->headLink(array(
+        'rel' => "stylesheet/less",
+        'type' => "text/css",
+        'href' => "/styles/modules/whiteboard/app.less"
+	));
+?>
+
+<div id="whiteboard-container"></div>

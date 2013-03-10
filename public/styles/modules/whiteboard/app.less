@@ -1,0 +1,134 @@
+
+	@import url("resources.less");
+
+	body{
+		background: rgb(200,200,200);
+	}
+
+	canvas{
+		background: rgb(255,255,255);
+	}
+
+	[draggable] {
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		user-select: none;
+	}	
+
+	.canvas{
+		float: left;
+	}
+
+/** - - [TEMPLATE LIST] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	.template-list{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		float: right;
+		width: 40%;
+	}
+	.template-list li{
+		margin: 0;
+		padding: 0;
+	}
+	.template-list li img{
+		width: 25%;
+		height: 25%;
+	}
+
+/** - - [LAYER LIST] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	.layer-list{
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		float: right;
+		width: 40%;
+	}
+	.layer-list li{
+		margin: 0;
+		padding: 0;
+	}
+	.layer-list li img{
+		width: 25%;
+		height: 25%;		
+	}
+	.layer-list li.selected{ border: 2px dotted red; }
+
+
+/** - - [CONTROLS] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	.controls{
+		/*textarea{display: none;}*/
+		li{
+			float: left; 
+			margin: 5px;
+			ul{
+				li{  }
+			}
+		}
+	}
+	.controls:after{ content: "."; display: block; width: 0; height: 0; visibility: hidden; }
+
+
+
+
+
+/** - - [BUTTONS] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	.btn{
+		.border-radius(4px);
+		padding: 5px 10px;
+		border: none;
+		background: rgb(240,240,240);
+		background-repeat: no-repeat;
+		width: 128/4px;
+		height: 128/4px;
+		.gradient( red, darken(red,15%) );
+		text-indent: -99999px;
+		background-image: url(images/sprite-buttons.png);
+	}
+	.btn.selected{
+		background-color:rgb(220,220,220);
+	}
+
+	.btn.new{
+		background-position: 0 0;
+	}
+	.btn.open{
+		background-position: 0 -(128*1)/4px;
+	}
+	.btn.save{
+		background-position: 0 -(128*2)/4px;
+	}
+	.btn.save-template{
+		background-position: 0 -(128*3)/4px;
+	}
+	.btn.undo{
+		background-position: 0 -(128*4)/4px;
+	}
+	.btn.redo{
+		background-position: 0 -(128*5)/4px;
+	}
+	.btn.line{
+		background-position: 0 -(128*6)/4px;
+	}
+	.btn.circle{
+		background-position: 0 -(128*7)/4px;
+	}
+	.btn.rectangle{
+		background-position: 0 -(128*8)/4px;
+	}
+	.btn.pen{
+		background-position: 0 -(128*9)/4px;
+	}
+	.btn.text{
+		background-position: 0 -(128*10)/4px;
+	}
+	.btn.erase{
+		background-position: 0 -(128*11)/4px;
+	}
+	.btn.add-layer{
+		background-position: 0 -(128*12)/4px;
+	}
+
+
+
