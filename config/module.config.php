@@ -19,10 +19,20 @@ return array(
 			'default' => array(
 				'type'    => 'segment',
 				'options' => array(
-					'route'    => '/whiteboard',
+					'route'    => '/whiteboard[/]',
 					'defaults' => array(
 						'controller' => 'Whiteboard\Controller\Index',
 						'action'     => 'index',
+					),
+				),
+			), 
+			'about' => array(
+				'type'    => 'segment',
+				'options' => array(
+					'route'    => '/whiteboard/about[/]',
+					'defaults' => array(
+						'controller' => 'Whiteboard\Controller\Index',
+						'action'     => 'about',
 					),
 				),
 			), 
