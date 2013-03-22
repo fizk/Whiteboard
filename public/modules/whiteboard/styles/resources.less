@@ -1,0 +1,48 @@
+
+	@color-background-body:		rgb(79,137,193);
+
+	@color-background-header:	rgb(244,231,172);
+	@color-border-header:		rgb(255,255,255);
+	@color-background-footer:	@color-background-header;
+	@color-border-footer:		@color-border-header;
+
+
+	@color-text:				rgb(255,255,255);
+
+	@color-footer-text:			@color-background-body;
+	@color-footer-link:			rgb(16,29,19);
+
+	
+
+/* - - - - - - [SIZES] - - - - - - - - - - - - - - - - - - - - - - - - - */
+	@margin: 				6px;
+	@padding: 				6px;
+
+
+/* - - - - - - [MIXIN] - - - - - - - - - - - - - - - - - - - - - - - - - */
+	.clearfix(){
+		content: " ";
+		display: table;
+		clear: both;
+	}
+
+	.iefix(){
+		*zoom:1;
+	}
+
+	.border-radius(@radius:4px){
+		-webkit-border-radius:@radius;
+		   -moz-border-radius:@radius;
+		    -ms-border-radius:@radius;
+		     -o-border-radius:@radius;
+		        border-radius:@radius;
+	}
+
+	.gradient(@from, @to, @direction:top){
+		background-image: -webkit-linear-gradient(@direction, @from, @to);
+		background-image:    -moz-linear-gradient(@direction, @from, @to);
+		background-image:     -ms-linear-gradient(@direction, @from, @to);
+		background-image:      -o-linear-gradient(@direction, @from, @to);
+		background-image:         linear-gradient(@direction, @from, @to);
+		
+	}

@@ -1,0 +1,181 @@
+
+	@import url("resources.less");
+
+
+
+/* - - - - [ GLOBAL ] - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+	body{
+		background: @color-background-body;
+		color: @color-text;
+	}
+	[draggable] {
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+
+/* - - - - [ HEADER / MENU ] - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+	body > header{
+		background: @color-background-header;
+		border-bottom-color: @color-border-header;
+		a{
+			color: @color-footer-link;
+		}
+	}
+
+
+/* - - - - [ FOOTER ] - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+	body > footer{
+		background: @color-background-footer;
+		border-top-color: @color-border-footer;
+		nav{
+			color: @color-footer-text;
+			a{
+				color: @color-footer-link;
+			}
+		}
+	}
+
+
+
+/* - - - - [ CONTAINER ] - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+	#whiteboard-container{
+		max-width: 960px;
+		margin: 0 auto;
+		/**
+		 * CONTROLS
+		 */
+		.controls{
+			/*textarea{display: none;}*/
+			li{
+				float: left; 
+				margin: 5px;
+				ul{
+					li{  }
+				}
+			}
+		}
+		.controls:after{.clearfix;}
+
+		/**
+		 * CANVAS
+		 */
+		canvas.canvas{
+			display: block;
+			background: rgb(255,255,255);
+			float: left;
+		}
+
+		/**
+		 * TEMPLATES
+		 */
+		ul.template-list{
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			float: right;
+			width: 30%;
+			li{
+				margin: @margin*2 0;
+				padding: 0;
+				position: relative;
+				img{
+					background: white;
+					width: 25%;
+					height: 25%;
+					
+				}
+				a{
+					position: absolute;
+					top:-@padding;
+					left:-@padding;
+					display: inline-block;
+					background: red;
+					color: white;
+					padding: @padding/2 @padding;
+					text-align: center;
+					.border-radius();
+				}
+				
+			}
+		}
+	}
+	#whiteboard-container:after{.clearfix;}
+	
+
+
+/** - - [ ABOUT ] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	div.about-wrapper{
+		max-width: 960px;
+		margin: 0 auto;
+
+		canvas{
+			background: white;
+		}
+	}
+
+
+
+
+
+
+/** - - [BUTTONS] - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+	.btn{
+		.border-radius(4px);
+		padding: 5px 10px;
+		border: none;
+		background: rgb(240,240,240);
+		background-repeat: no-repeat;
+		width: 128/4px;
+		height: 128/4px;
+		.gradient( red, darken(red,15%) );
+		text-indent: -99999px;
+		background-image: url(images/sprite-buttons.png);
+	}
+	.btn.selected{
+		background-color:rgb(220,220,220);
+	}
+
+	.btn.new{
+		background-position: 0 0;
+	}
+	.btn.open{
+		background-position: 0 -(128*1)/4px;
+	}
+	.btn.save{
+		background-position: 0 -(128*2)/4px;
+	}
+	.btn.save-template{
+		background-position: 0 -(128*3)/4px;
+	}
+	.btn.undo{
+		background-position: 0 -(128*4)/4px;
+	}
+	.btn.redo{
+		background-position: 0 -(128*5)/4px;
+	}
+	.btn.line{
+		background-position: 0 -(128*6)/4px;
+	}
+	.btn.circle{
+		background-position: 0 -(128*7)/4px;
+	}
+	.btn.rectangle{
+		background-position: 0 -(128*8)/4px;
+	}
+	.btn.pen{
+		background-position: 0 -(128*9)/4px;
+	}
+	.btn.text{
+		background-position: 0 -(128*10)/4px;
+	}
+	.btn.erase{
+		background-position: 0 -(128*11)/4px;
+	}
+	.btn.add-layer{
+		background-position: 0 -(128*12)/4px;
+	}
+
+
+
