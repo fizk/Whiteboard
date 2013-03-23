@@ -1,233 +1,61 @@
 <?php
 
-	$this->headLink()
-		->appendStylesheet("/styles/modules/whiteboard/app.css");
+	$this->headLink(array(
+        'rel' => "stylesheet/less",
+        'type' => "text/css",
+        'href' => "/styles/modules/whiteboard/app.less"
+	));
 ?>
 
-<article id="about-article">
-	<header>
-		<hgroup>
-			<h1>How I made a drawing application</h1>
-		</hgroup>
-		<nav>
-			<ul>
-				<li></li>
-			</ul>
-		</nav>
-	</header>
-	<section>
-		<p>ég er að nota canvas elementið. Ég byrja á því að tengja onmousedown, onmousemove og onmouseup við canvas element
-			sem ég bý til með javascript. Þegar músin fer niðurt set ég drawingMode sama sem true og þegar ég sleppi
-			músinni tek ég drawingMode af. Þar af leiðandi get ég teiknað á canvasinn þegar ég hreyfi músina en eingöngu
-			þegar ég held niður músatakkanum.</p>
-		<p>Það er mikilvægt að canvas elementinu sé gefin hæð og breydd. Ef canvas elementinu er gefinn stíll
-			þá virðist vera að myndin sé fyrst teiknuð á strigan og svo er hún teygð í rétta stærð, við það verður
-			myndin blörrý. Ef canvas er gefið hæð og breydd er striginn settur í rétta stærð og svo er teiknað á hann.</p>
-		<pre>
-			document.addEventListener("DOMContentLoaded",function(){
-
-				var drawingMode = false;
-				var canvas = document.createElement("canvas");
-
-					canvas.addEventListener("mousedown",function(event){
-						drawingMode = true;
-					},false);
-					canvas.addEventListener("mousemove",function(event){
-						if(drawingMode){
-							//DRAW
-						}
-					},false);
-					canvas.addEventListener("mouseup",function(event){
-						drawingMode = false;
-
-					},false);
-
-				document.body.appendChild(canvas);
-
-			},false);
-		</pre>
-		<p>Við viljum geta teiknað mismunandi form; línur, hringi, kassa og þessháttar. Í anda OOP forritunar
-			væri best að búa til klasa sem svo mismunandi form myndu erfa.</p>
-		<p>Klasinn þarf fall sem á eker kallaðþegar músin fer niður, annað þegar músin hreyfist og þriðja þegar
-			músartakkanum er sleppt. Klasinn þarf tilvik af canvas elementinu til að hafa eitthvað til að teikna á.
-			Það er líka gott að láta klasann muna hnitin þegar músin fór niður</p>
-		<pre>
-			/**
-			 * Base class for drawing shapes
-			 *
-			 * @class Shape
-			 * @constructor
-			 * @param canvas {DOMCanvasElement}
-			 */
-			var Shape = function( canvas ){
-				this.canvas = canvas;
-				this.context = this.canvas.getContext("2d");
-			};
-				/**
-				 * @class Shape
-				 * @property startX {Number}
-				 */
-				Shape.prototype.startX = 0;
-				/**
-				 * @class Shape
-				 * @property startY {Number}
-				 */
-				Shape.prototype.startY = 0;
-				/**
-				 * @class Shape
-				 * @property canvas {DOMCanvasElement}
-				 */
-				Shape.prototype.canvas = null;
-				/**
-				 * @class Shape
-				 * @property startX {CanvasRenderingContext2D}
-				 */
-				Shape.prototype.context = null;
-				/**
-				 * @class Shape
-				 * @property points {Array}
-				 */
-				Shape.prototype.points = [];
-				/**
-				 * @class Shape
-				 * @property before {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 */
-				Shape.prototype.before = function(event,x,y){
-					this.startX = x;
-					this.startY = y;
-				};
-				/**
-				 * @class Shape
-				 * @property draw {Function}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 */
-				Shape.prototype.draw = function(event,x,y){};
-				/**
-				 * @class Shape
-				 * @property after {Function}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 * @returns {Object}
-				 */
-				Shape.prototype.after = function(event,x,y){};
-		</pre>
-		<p>Til að byrja með útfærum við tól sem teiknar línu frá þeim punkti þar sem músartakkinn fór niður
-			og til þess staðs þar sem mústakkanum er sleppt.</p>
-		<pre>
-			/**
-			 * Line tool, draw a line.
-			 *
-			 * @class Line
-			 * @constructor
-			 * @param canvas {DOMCanvasElement}
-			 */
-			var Line = function( canvas ){
-				this.canvas = canvas;
-				this.context = this.canvas.getContext("2d");
-			};
-				Line.prototype.__proto__ = Shape.prototype;
-				/**
-				 * @class Line
-				 * @property before {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 */
-				Line.prototype.draw = function(event,x,y){ 
-					this.context.beginPath();
-					this.context.lineWidth = 1;
-					this.context.strokeStyle = "rgb(0,0,0)";
-					this.context.moveTo(this.startX,this.startY);
-					this.context.lineTo(x,y);
-					this.context.stroke();
-				};
-				/**
-				 * @class Line
-				 * @property after {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 * @returns {Object}
-				 */
-				Line.prototype.after = function(event,x,y){
-					this.context.beginPath();
-					this.context.lineWidth = 1;
-					this.context.strokeStyle = "rgb(0,0,0)";
-					this.context.moveTo(this.startX,this.startY);
-					this.context.lineTo(x,y);
-					this.context.stroke();
-					
-				}
-		</pre>
-		<p>Svona er svo kallað á tilvik af klasanum.</p>
-		<pre>
+<div class="about-wrapper">
+	<article id="about-article">
+		<header>
+			<hgroup>
+				<h1>How I made a drawing application</h1>
+			</hgroup>
+			<nav>
+				<ul>
+					<li></li>
+				</ul>
+			</nav>
+		</header>
+		<section>
+			<p>ég er að nota canvas elementið. Ég byrja á því að tengja onmousedown, onmousemove og onmouseup við canvas element
+				sem ég bý til með javascript. Þegar músin fer niðurt set ég drawingMode sama sem true og þegar ég sleppi
+				músinni tek ég drawingMode af. Þar af leiðandi get ég teiknað á canvasinn þegar ég hreyfi músina en eingöngu
+				þegar ég held niður músatakkanum.</p>
+			<p>Það er mikilvægt að canvas elementinu sé gefin hæð og breydd. Ef canvas elementinu er gefinn stíll
+				þá virðist vera að myndin sé fyrst teiknuð á strigan og svo er hún teygð í rétta stærð, við það verður
+				myndin blörrý. Ef canvas er gefið hæð og breydd er striginn settur í rétta stærð og svo er teiknað á hann.</p>
+			<pre>
 				document.addEventListener("DOMContentLoaded",function(){
-
 
 					var drawingMode = false;
 					var canvas = document.createElement("canvas");
-						canvas.width = 400;
-						canvas.height = 300;
-
 
 						canvas.addEventListener("mousedown",function(event){
-							line.before(
-									event,
-									event.pageX - event.target.offsetLeft,
-									event.pageY - event.target.offsetTop
-							);
 							drawingMode = true;
 						},false);
 						canvas.addEventListener("mousemove",function(event){
 							if(drawingMode){
-								line.draw(
-										event,
-										event.pageX - event.target.offsetLeft,
-										event.pageY - event.target.offsetTop
-								);
+								//DRAW
 							}
 						},false);
 						canvas.addEventListener("mouseup",function(event){
-							line.after(
-									event,
-									event.pageX - event.target.offsetLeft,
-									event.pageY - event.target.offsetTop
-							);
 							drawingMode = false;
+
 						},false);
-
-
-					var line = new Line(canvas);
 
 					document.body.appendChild(canvas);
 
 				},false);
-		</pre>
-		<p>Þegar við smellum niður á músinni setjum við upphafspuntk á línunni, á meðan við færum svo til músina
-			þá viljum við sjá hvernig línan kemur til með að líta út. Þegar við svo sleppum músinn viljum við
-			að línan teiknist</p>
-		<p>Glöggir lesendur sjá væntanlega að þetta er ófullnægjandi lausn. Á meðan músin er hreyfð teiknast
-			margar línur</p>
-		<p>Það sem við þurfum að gera er að hreinsa strigan í hvert skipti sem músin hreyfist.</p>
-		<pre>
-				canvas.addEventListener("mousemove",function(event){
-					if(drawingMode){
-						canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
-						line.draw(
-								event,
-								event.pageX - event.target.offsetLeft,
-								event.pageY - event.target.offsetTop
-						);
-					}
-				},false);
-		</pre>
-		<figure id="figure-1"></figure>
-		<script>
-			;(function(){
+			</pre>
+			<p>Við viljum geta teiknað mismunandi form; línur, hringi, kassa og þessháttar. Í anda OOP forritunar
+				væri best að búa til klasa sem svo mismunandi form myndu erfa.</p>
+			<p>Klasinn þarf fall sem á eker kallaðþegar músin fer niður, annað þegar músin hreyfist og þriðja þegar
+				músartakkanum er sleppt. Klasinn þarf tilvik af canvas elementinu til að hafa eitthvað til að teikna á.
+				Það er líka gott að láta klasann muna hnitin þegar músin fór niður</p>
+			<pre>
 				/**
 				 * Base class for drawing shapes
 				 *
@@ -290,178 +118,109 @@
 					 * @returns {Object}
 					 */
 					Shape.prototype.after = function(event,x,y){};
-
-
-			/**
-			 * Line tool, draw a line.
-			 *
-			 * @class Line
-			 * @constructor
-			 * @param canvas {DOMCanvasElement}
-			 */
-			var Line = function( canvas ){
-				this.canvas = canvas;
-				this.context = this.canvas.getContext("2d");
-			};
-				Line.prototype.__proto__ = Shape.prototype;
+			</pre>
+			<p>Til að byrja með útfærum við tól sem teiknar línu frá þeim punkti þar sem músartakkinn fór niður
+				og til þess staðs þar sem mústakkanum er sleppt.</p>
+			<pre>
 				/**
+				 * Line tool, draw a line.
+				 *
 				 * @class Line
-				 * @property before {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
+				 * @constructor
+				 * @param canvas {DOMCanvasElement}
 				 */
-				Line.prototype.draw = function(event,x,y){ 
-					this.context.beginPath();
-					this.context.lineWidth = 1;
-					this.context.strokeStyle = "rgb(0,0,0)";
-					this.context.moveTo(this.startX,this.startY);
-					this.context.lineTo(x,y);
-					this.context.stroke();
+				var Line = function( canvas ){
+					this.canvas = canvas;
+					this.context = this.canvas.getContext("2d");
 				};
-				/**
-				 * @class Line
-				 * @property after {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 * @returns {Object}
-				 */
-				Line.prototype.after = function(event,x,y){
-					this.context.beginPath();
-					this.context.lineWidth = 1;
-					this.context.strokeStyle = "rgb(0,0,0)";
-					this.context.moveTo(this.startX,this.startY);
-					this.context.lineTo(x,y);
-					this.context.stroke();
-				}
-				
-				document.addEventListener("DOMContentLoaded",function(){
+					Line.prototype.__proto__ = Shape.prototype;
+					/**
+					 * @class Line
+					 * @property before {Function}
+					 * @argument event {Event}
+					 * @argument x {Number}
+					 * @argument y {Number}
+					 */
+					Line.prototype.draw = function(event,x,y){ 
+						this.context.beginPath();
+						this.context.lineWidth = 1;
+						this.context.strokeStyle = "rgb(0,0,0)";
+						this.context.moveTo(this.startX,this.startY);
+						this.context.lineTo(x,y);
+						this.context.stroke();
+					};
+					/**
+					 * @class Line
+					 * @property after {Function}
+					 * @argument event {Event}
+					 * @argument x {Number}
+					 * @argument y {Number}
+					 * @returns {Object}
+					 */
+					Line.prototype.after = function(event,x,y){
+						this.context.beginPath();
+						this.context.lineWidth = 1;
+						this.context.strokeStyle = "rgb(0,0,0)";
+						this.context.moveTo(this.startX,this.startY);
+						this.context.lineTo(x,y);
+						this.context.stroke();
+						
+					}
+			</pre>
+			<p>Svona er svo kallað á tilvik af klasanum.</p>
+			<pre>
+					document.addEventListener("DOMContentLoaded",function(){
 
 
-					var drawingMode = false;
-					var canvas = document.createElement("canvas");
-						canvas.width = 400;
-						canvas.height = 300;
+						var drawingMode = false;
+						var canvas = document.createElement("canvas");
+							canvas.width = 400;
+							canvas.height = 300;
 
 
-						canvas.addEventListener("mousedown",function(event){
-							line.before(
-									event,
-									event.pageX - event.target.offsetLeft,
-									event.pageY - event.target.offsetTop
-							);
-							drawingMode = true;
-						},false);
-						canvas.addEventListener("mousemove",function(event){
-							if(drawingMode){
-
-								line.draw(
+							canvas.addEventListener("mousedown",function(event){
+								line.before(
 										event,
 										event.pageX - event.target.offsetLeft,
 										event.pageY - event.target.offsetTop
 								);
-							}
-						},false);
-						canvas.addEventListener("mouseup",function(event){
-							line.after(
-								event,
-								event.pageX - event.target.offsetLeft,
-								event.pageY - event.target.offsetTop
-							);
-							drawingMode = false;
-						},false);
+								drawingMode = true;
+							},false);
+							canvas.addEventListener("mousemove",function(event){
+								if(drawingMode){
+									line.draw(
+											event,
+											event.pageX - event.target.offsetLeft,
+											event.pageY - event.target.offsetTop
+									);
+								}
+							},false);
+							canvas.addEventListener("mouseup",function(event){
+								line.after(
+										event,
+										event.pageX - event.target.offsetLeft,
+										event.pageY - event.target.offsetTop
+								);
+								drawingMode = false;
+							},false);
 
 
-					var line = new Line(canvas);
+						var line = new Line(canvas);
 
-					document.getElementById("figure-1").appendChild(canvas);
+						document.body.appendChild(canvas);
 
-				},false);					
-			})();
-		</script>
-		<p>Jæja okkur tókst ekki betur til en svo að núna getum við bara teikna eina línu. Næsta lína sem við
-			reynum að teikna strokar út fyrr línu.</p>
-		<p>Málið er nefnilega það að við verðum sjálf að halda utanum öll object sem við teiknum á strigann,
-			þannig er bara canvas elementið.</p>
-		<p>Lausn á þessu vandamáli er að nota object literals sem geymdir eru í array.</p>
-		<p>Ferlið gæti því verið nokkurnvegin svona: Þegar músartakknum er sleppt skilar Shape::after() fallið
-			object literal sem representar formið sem teiknað var, það fer á nokkurskonar history stafla. Á meðan 
-			músin er á hreyfingu er striginn hreinsaður og öll forminn á staflanum eru endurteiknuð.</p>
-		<p>Þetta kallar á nýtt fall í Shape klasanum Shape::redraw(literal), þetta fall kann að teikna formið
-			með þeim upplýsingum sem Shape::after() skilar af sér.</p>
-		<pre>
-			/**
-			 * @class Shape
-			 * @property redraw {Function}
-			 * @argument object {Object}
-			 */
-			Shape.prototype.redraw = function(object){};
-
-			//- - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-			/**
-			 * @class Line
-			 * @property after {Function}
-			 * @argument event {Event}
-			 * @argument x {Number}
-			 * @argument y {Number}
-			 * @returns {Object}
-			 */
-			Line.prototype.after = function(event,x,y){
-				this.context.beginPath();
-				this.context.lineWidth = 1;
-				this.context.strokeStyle = "rgb(0,0,0)";
-				this.context.moveTo(this.startX,this.startY);
-				this.context.lineTo(x,y);
-				this.context.stroke();
-
-				return {
-					startX: this.startX,
-					startY: this.startY,
-					points:[{x:x,y:y}]
-				};
-			}
-			/**
-			 * @class Line
-			 * @property redraw {Function}
-			 * @argument object {Object}
-			 */
-			Line.prototype.redraw = function(object){
-				this.context.beginPath();
-				this.context.lineWidth = object.stroke;
-				this.context.strokeStyle = object.color;
-				this.context.moveTo(object.startX,object.startY);
-				this.context.lineTo(object.points[0].x,object.points[0].y);
-				this.context.stroke();			
-			};	
-
-			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-			document.addEventListener("DOMContentLoaded",function(){
-
-
-				var drawingMode = false;
-				var canvas = document.createElement("canvas");
-					canvas.width = 400;
-					canvas.height = 300;
-				var history = [];
-
-
-					canvas.addEventListener("mousedown",function(event){
-						line.before(
-								event,
-								event.pageX - event.target.offsetLeft,
-								event.pageY - event.target.offsetTop
-						);
-						drawingMode = true;
 					},false);
+			</pre>
+			<p>Þegar við smellum niður á músinni setjum við upphafspuntk á línunni, á meðan við færum svo til músina
+				þá viljum við sjá hvernig línan kemur til með að líta út. Þegar við svo sleppum músinn viljum við
+				að línan teiknist</p>
+			<p>Glöggir lesendur sjá væntanlega að þetta er ófullnægjandi lausn. Á meðan músin er hreyfð teiknast
+				margar línur</p>
+			<p>Það sem við þurfum að gera er að hreinsa strigan í hvert skipti sem músin hreyfist.</p>
+			<pre>
 					canvas.addEventListener("mousemove",function(event){
 						if(drawingMode){
 							canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
-							history.forEach(function(item,index,collection){
-								line.redraw(item);
-							});
 							line.draw(
 									event,
 									event.pageX - event.target.offsetLeft,
@@ -469,95 +228,72 @@
 							);
 						}
 					},false);
-					canvas.addEventListener("mouseup",function(event){
-						history.push(
-							line.after(
-								event,
-								event.pageX - event.target.offsetLeft,
-								event.pageY - event.target.offsetTop
-							)
-						)
-						drawingMode = false;
-					},false);
-
-
-				var line = new Line(canvas);
-
-				document.body.appendChild(canvas);
-
-			},false);	
-		</pre>
-		<figure id="figure-2"></figure>
-		<script>
-			;(function(){
-				/**
-				 * Base class for drawing shapes
-				 *
-				 * @class Shape
-				 * @constructor
-				 * @param canvas {DOMCanvasElement}
-				 */
-				var Shape = function( canvas ){
-					this.canvas = canvas;
-					this.context = this.canvas.getContext("2d");
-				};
+			</pre>
+			<figure id="figure-1"></figure>
+			<script>
+				;(function(){
 					/**
+					 * Base class for drawing shapes
+					 *
 					 * @class Shape
-					 * @property startX {Number}
+					 * @constructor
+					 * @param canvas {DOMCanvasElement}
 					 */
-					Shape.prototype.startX = 0;
-					/**
-					 * @class Shape
-					 * @property startY {Number}
-					 */
-					Shape.prototype.startY = 0;
-					/**
-					 * @class Shape
-					 * @property canvas {DOMCanvasElement}
-					 */
-					Shape.prototype.canvas = null;
-					/**
-					 * @class Shape
-					 * @property startX {CanvasRenderingContext2D}
-					 */
-					Shape.prototype.context = null;
-					/**
-					 * @class Shape
-					 * @property points {Array}
-					 */
-					Shape.prototype.points = [];
-					/**
-					 * @class Shape
-					 * @property before {Function}
-					 * @argument event {Event}
-					 * @argument x {Number}
-					 * @argument y {Number}
-					 */
-					Shape.prototype.before = function(event,x,y){
-						this.startX = x;
-						this.startY = y;
+					var Shape = function( canvas ){
+						this.canvas = canvas;
+						this.context = this.canvas.getContext("2d");
 					};
-					/**
-					 * @class Shape
-					 * @property draw {Function}
-					 * @argument x {Number}
-					 * @argument y {Number}
-					 */
-					Shape.prototype.draw = function(event,x,y){};
-					/**
-					 * @class Shape
-					 * @property after {Function}
-					 * @argument x {Number}
-					 * @argument y {Number}
-					 * @returns {Object}
-					 */
-					Shape.prototype.after = function(event,x,y){};
-					/**
-					 * @class Shape
-					 * @property redraw {Function}
-					 * @argument object {Object}
-					 */
-					Shape.prototype.redraw = function(object){};
+						/**
+						 * @class Shape
+						 * @property startX {Number}
+						 */
+						Shape.prototype.startX = 0;
+						/**
+						 * @class Shape
+						 * @property startY {Number}
+						 */
+						Shape.prototype.startY = 0;
+						/**
+						 * @class Shape
+						 * @property canvas {DOMCanvasElement}
+						 */
+						Shape.prototype.canvas = null;
+						/**
+						 * @class Shape
+						 * @property startX {CanvasRenderingContext2D}
+						 */
+						Shape.prototype.context = null;
+						/**
+						 * @class Shape
+						 * @property points {Array}
+						 */
+						Shape.prototype.points = [];
+						/**
+						 * @class Shape
+						 * @property before {Function}
+						 * @argument event {Event}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 */
+						Shape.prototype.before = function(event,x,y){
+							this.startX = x;
+							this.startY = y;
+						};
+						/**
+						 * @class Shape
+						 * @property draw {Function}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 */
+						Shape.prototype.draw = function(event,x,y){};
+						/**
+						 * @class Shape
+						 * @property after {Function}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 * @returns {Object}
+						 */
+						Shape.prototype.after = function(event,x,y){};
 
 
 				/**
@@ -602,29 +338,110 @@
 						this.context.moveTo(this.startX,this.startY);
 						this.context.lineTo(x,y);
 						this.context.stroke();
-
-						return {
-							startX: this.startX,
-							startY: this.startY,
-							points:[{x:x,y:y}]
-						};
-						
 					}
-					/**
-					 * @class Line
-					 * @property redraw {Function}
-					 * @argument object {Object}
-					 */
-					Line.prototype.redraw = function(object){
-						this.context.beginPath();
-						this.context.lineWidth = object.stroke;
-						this.context.strokeStyle = object.color;
-						this.context.moveTo(object.startX,object.startY);
-						this.context.lineTo(object.points[0].x,object.points[0].y);
-						this.context.stroke();			
-					};
+					
+					document.addEventListener("DOMContentLoaded",function(){
 
-						
+
+						var drawingMode = false;
+						var canvas = document.createElement("canvas");
+							canvas.width = 400;
+							canvas.height = 300;
+
+
+							canvas.addEventListener("mousedown",function(event){
+								line.before(
+										event,
+										event.pageX - event.target.offsetLeft,
+										event.pageY - event.target.offsetTop
+								);
+								drawingMode = true;
+							},false);
+							canvas.addEventListener("mousemove",function(event){
+								if(drawingMode){
+
+									line.draw(
+											event,
+											event.pageX - event.target.offsetLeft,
+											event.pageY - event.target.offsetTop
+									);
+								}
+							},false);
+							canvas.addEventListener("mouseup",function(event){
+								line.after(
+									event,
+									event.pageX - event.target.offsetLeft,
+									event.pageY - event.target.offsetTop
+								);
+								drawingMode = false;
+							},false);
+
+
+						var line = new Line(canvas);
+
+						document.getElementById("figure-1").appendChild(canvas);
+
+					},false);					
+				})();
+			</script>
+			<p>Jæja okkur tókst ekki betur til en svo að núna getum við bara teikna eina línu. Næsta lína sem við
+				reynum að teikna strokar út fyrr línu.</p>
+			<p>Málið er nefnilega það að við verðum sjálf að halda utanum öll object sem við teiknum á strigann,
+				þannig er bara canvas elementið.</p>
+			<p>Lausn á þessu vandamáli er að nota object literals sem geymdir eru í array.</p>
+			<p>Ferlið gæti því verið nokkurnvegin svona: Þegar músartakknum er sleppt skilar Shape::after() fallið
+				object literal sem representar formið sem teiknað var, það fer á nokkurskonar history stafla. Á meðan 
+				músin er á hreyfingu er striginn hreinsaður og öll forminn á staflanum eru endurteiknuð.</p>
+			<p>Þetta kallar á nýtt fall í Shape klasanum Shape::redraw(literal), þetta fall kann að teikna formið
+				með þeim upplýsingum sem Shape::after() skilar af sér.</p>
+			<pre>
+				/**
+				 * @class Shape
+				 * @property redraw {Function}
+				 * @argument object {Object}
+				 */
+				Shape.prototype.redraw = function(object){};
+
+				//- - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+				/**
+				 * @class Line
+				 * @property after {Function}
+				 * @argument event {Event}
+				 * @argument x {Number}
+				 * @argument y {Number}
+				 * @returns {Object}
+				 */
+				Line.prototype.after = function(event,x,y){
+					this.context.beginPath();
+					this.context.lineWidth = 1;
+					this.context.strokeStyle = "rgb(0,0,0)";
+					this.context.moveTo(this.startX,this.startY);
+					this.context.lineTo(x,y);
+					this.context.stroke();
+
+					return {
+						startX: this.startX,
+						startY: this.startY,
+						points:[{x:x,y:y}]
+					};
+				}
+				/**
+				 * @class Line
+				 * @property redraw {Function}
+				 * @argument object {Object}
+				 */
+				Line.prototype.redraw = function(object){
+					this.context.beginPath();
+					this.context.lineWidth = object.stroke;
+					this.context.strokeStyle = object.color;
+					this.context.moveTo(object.startX,object.startY);
+					this.context.lineTo(object.points[0].x,object.points[0].y);
+					this.context.stroke();			
+				};	
+
+				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 				document.addEventListener("DOMContentLoaded",function(){
 
 
@@ -670,103 +487,292 @@
 
 					var line = new Line(canvas);
 
-					document.getElementById("figure-2").appendChild(canvas);
+					document.body.appendChild(canvas);
 
-				},false);
-			})();
-		</script>
-		<p>En nú langar okkur til að geta teiknað meira en bara beina línu. Erfum Shape og útfærum Pen</p>
-		<p>Það eru nokkrir hlutir sem við þurfum að huga að: Nú erum við kmin með tvö ólík form á history
-			fylkið okkar, við verðum að geta aðgreit þau, því skulum við setja "type" gildi í object literal'inn
-			sem Shape::after() fallið skilar. Við viljum væntanlega í framtíðinni geta ráðið breidd og lit
-			línunnar svo við þurfum bæði að setja þessi gildi inní literal'inn og líka sem properties í Shape
-			klasann.</p>
-		<pre>
-			/**
-			 * Pen tool, draw a freehand line.
-			 *
-			 * @class Pen
-			 * @constructor
-			 * @param canvas {DOMCanvasElement}
-			 */
-			var Pen = function( canvas ){
-				this.canvas = canvas;
-				this.context = this.canvas.getContext("2d");
-			};
-				Pen.prototype.__proto__ = Shape.prototype;
+				},false);	
+			</pre>
+			<figure id="figure-2"></figure>
+			<script>
+				;(function(){
+					/**
+					 * Base class for drawing shapes
+					 *
+					 * @class Shape
+					 * @constructor
+					 * @param canvas {DOMCanvasElement}
+					 */
+					var Shape = function( canvas ){
+						this.canvas = canvas;
+						this.context = this.canvas.getContext("2d");
+					};
+						/**
+						 * @class Shape
+						 * @property startX {Number}
+						 */
+						Shape.prototype.startX = 0;
+						/**
+						 * @class Shape
+						 * @property startY {Number}
+						 */
+						Shape.prototype.startY = 0;
+						/**
+						 * @class Shape
+						 * @property canvas {DOMCanvasElement}
+						 */
+						Shape.prototype.canvas = null;
+						/**
+						 * @class Shape
+						 * @property startX {CanvasRenderingContext2D}
+						 */
+						Shape.prototype.context = null;
+						/**
+						 * @class Shape
+						 * @property points {Array}
+						 */
+						Shape.prototype.points = [];
+						/**
+						 * @class Shape
+						 * @property before {Function}
+						 * @argument event {Event}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 */
+						Shape.prototype.before = function(event,x,y){
+							this.startX = x;
+							this.startY = y;
+						};
+						/**
+						 * @class Shape
+						 * @property draw {Function}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 */
+						Shape.prototype.draw = function(event,x,y){};
+						/**
+						 * @class Shape
+						 * @property after {Function}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 * @returns {Object}
+						 */
+						Shape.prototype.after = function(event,x,y){};
+						/**
+						 * @class Shape
+						 * @property redraw {Function}
+						 * @argument object {Object}
+						 */
+						Shape.prototype.redraw = function(object){};
 
+
+					/**
+					 * Line tool, draw a line.
+					 *
+					 * @class Line
+					 * @constructor
+					 * @param canvas {DOMCanvasElement}
+					 */
+					var Line = function( canvas ){
+						this.canvas = canvas;
+						this.context = this.canvas.getContext("2d");
+					};
+						Line.prototype.__proto__ = Shape.prototype;
+						/**
+						 * @class Line
+						 * @property before {Function}
+						 * @argument event {Event}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 */
+						Line.prototype.draw = function(event,x,y){ 
+							this.context.beginPath();
+							this.context.lineWidth = 1;
+							this.context.strokeStyle = "rgb(0,0,0)";
+							this.context.moveTo(this.startX,this.startY);
+							this.context.lineTo(x,y);
+							this.context.stroke();
+						};
+						/**
+						 * @class Line
+						 * @property after {Function}
+						 * @argument event {Event}
+						 * @argument x {Number}
+						 * @argument y {Number}
+						 * @returns {Object}
+						 */
+						Line.prototype.after = function(event,x,y){
+							this.context.beginPath();
+							this.context.lineWidth = 1;
+							this.context.strokeStyle = "rgb(0,0,0)";
+							this.context.moveTo(this.startX,this.startY);
+							this.context.lineTo(x,y);
+							this.context.stroke();
+
+							return {
+								startX: this.startX,
+								startY: this.startY,
+								points:[{x:x,y:y}]
+							};
+							
+						}
+						/**
+						 * @class Line
+						 * @property redraw {Function}
+						 * @argument object {Object}
+						 */
+						Line.prototype.redraw = function(object){
+							this.context.beginPath();
+							this.context.lineWidth = object.stroke;
+							this.context.strokeStyle = object.color;
+							this.context.moveTo(object.startX,object.startY);
+							this.context.lineTo(object.points[0].x,object.points[0].y);
+							this.context.stroke();			
+						};
+
+							
+					document.addEventListener("DOMContentLoaded",function(){
+
+
+						var drawingMode = false;
+						var canvas = document.createElement("canvas");
+							canvas.width = 400;
+							canvas.height = 300;
+						var history = [];
+
+
+							canvas.addEventListener("mousedown",function(event){
+								line.before(
+										event,
+										event.pageX - event.target.offsetLeft,
+										event.pageY - event.target.offsetTop
+								);
+								drawingMode = true;
+							},false);
+							canvas.addEventListener("mousemove",function(event){
+								if(drawingMode){
+									canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
+									history.forEach(function(item,index,collection){
+										line.redraw(item);
+									});
+									line.draw(
+											event,
+											event.pageX - event.target.offsetLeft,
+											event.pageY - event.target.offsetTop
+									);
+								}
+							},false);
+							canvas.addEventListener("mouseup",function(event){
+								history.push(
+									line.after(
+										event,
+										event.pageX - event.target.offsetLeft,
+										event.pageY - event.target.offsetTop
+									)
+								)
+								drawingMode = false;
+							},false);
+
+
+						var line = new Line(canvas);
+
+						document.getElementById("figure-2").appendChild(canvas);
+
+					},false);
+				})();
+			</script>
+			<p>En nú langar okkur til að geta teiknað meira en bara beina línu. Erfum Shape og útfærum Pen</p>
+			<p>Það eru nokkrir hlutir sem við þurfum að huga að: Nú erum við kmin með tvö ólík form á history
+				fylkið okkar, við verðum að geta aðgreit þau, því skulum við setja "type" gildi í object literal'inn
+				sem Shape::after() fallið skilar. Við viljum væntanlega í framtíðinni geta ráðið breidd og lit
+				línunnar svo við þurfum bæði að setja þessi gildi inní literal'inn og líka sem properties í Shape
+				klasann.</p>
+			<pre>
 				/**
+				 * Pen tool, draw a freehand line.
+				 *
 				 * @class Pen
-				 * @property before {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
+				 * @constructor
+				 * @param canvas {DOMCanvasElement}
 				 */
-				Pen.prototype.draw = function(event,x,y){
-					var self = this;
-					this.context.beginPath();
-					this.context.lineWidth = this.stroke;
-					this.context.strokeStyle = "rgb(220,220,220)";
-					this.context.moveTo(this.startX, this.startY);
-					this.points.forEach(function(item,index,collection){
-						self.context.lineTo(item.x,item.y);
-					});
-					this.context.lineTo(x,y);
-					this.points.push( {x:x,y:y} );
-					this.context.stroke();
+				var Pen = function( canvas ){
+					this.canvas = canvas;
+					this.context = this.canvas.getContext("2d");
 				};
-				/**
-				 * @class Pen
-				 * @property after {Function}
-				 * @argument event {Event}
-				 * @argument x {Number}
-				 * @argument y {Number}
-				 * @returns {Object}
-				 */
-				Pen.prototype.after = function(event,x,y){
-					var self = this;
-					this.context.beginPath();
-					this.context.lineWidth = this.stroke;
-					this.context.strokeStyle = this.color;
-					this.context.moveTo(this.startX, this.startY);
-					this.points.forEach(function(item,index,collection){
-						self.context.lineTo(item.x,item.y);
-					});
-					this.context.lineTo(x,y);
-					this.points.push( {x:x,y:y} );
-					this.context.stroke();
-					var clone = this.points.slice(0);
-					this.points = [];
+					Pen.prototype.__proto__ = Shape.prototype;
 
-					return {
-						type: "pen",
-						x:this.startX,
-						y:this.startY,
-						points: clone,
-						color: this.color,
-						stroke: this.stroke,
-						time: Date.now(),
-						top: {x:0,y:0},
-						bottom: {x:0,y:0}
-					};			
-				}
-				/**
-				 * @class Pen
-				 * @property redraw {Function}
-				 * @argument object {Object}
-				 */
-				Pen.prototype.redraw = function(object){
-					var self = this;
-					this.context.beginPath();
-					this.context.lineWidth = object.stroke;
-					this.context.strokeStyle = object.color;
-					this.context.moveTo(object.x, object.y);
-					object.points.forEach(function(item,index,collection){
-						self.context.lineTo(item.x,item.y);
-					});
-					this.context.stroke();			
-				}
-		</pre>
-	</section>
-	<footer></footer>
-</article>
+					/**
+					 * @class Pen
+					 * @property before {Function}
+					 * @argument event {Event}
+					 * @argument x {Number}
+					 * @argument y {Number}
+					 */
+					Pen.prototype.draw = function(event,x,y){
+						var self = this;
+						this.context.beginPath();
+						this.context.lineWidth = this.stroke;
+						this.context.strokeStyle = "rgb(220,220,220)";
+						this.context.moveTo(this.startX, this.startY);
+						this.points.forEach(function(item,index,collection){
+							self.context.lineTo(item.x,item.y);
+						});
+						this.context.lineTo(x,y);
+						this.points.push( {x:x,y:y} );
+						this.context.stroke();
+					};
+					/**
+					 * @class Pen
+					 * @property after {Function}
+					 * @argument event {Event}
+					 * @argument x {Number}
+					 * @argument y {Number}
+					 * @returns {Object}
+					 */
+					Pen.prototype.after = function(event,x,y){
+						var self = this;
+						this.context.beginPath();
+						this.context.lineWidth = this.stroke;
+						this.context.strokeStyle = this.color;
+						this.context.moveTo(this.startX, this.startY);
+						this.points.forEach(function(item,index,collection){
+							self.context.lineTo(item.x,item.y);
+						});
+						this.context.lineTo(x,y);
+						this.points.push( {x:x,y:y} );
+						this.context.stroke();
+						var clone = this.points.slice(0);
+						this.points = [];
+
+						return {
+							type: "pen",
+							x:this.startX,
+							y:this.startY,
+							points: clone,
+							color: this.color,
+							stroke: this.stroke,
+							time: Date.now(),
+							top: {x:0,y:0},
+							bottom: {x:0,y:0}
+						};			
+					}
+					/**
+					 * @class Pen
+					 * @property redraw {Function}
+					 * @argument object {Object}
+					 */
+					Pen.prototype.redraw = function(object){
+						var self = this;
+						this.context.beginPath();
+						this.context.lineWidth = object.stroke;
+						this.context.strokeStyle = object.color;
+						this.context.moveTo(object.x, object.y);
+						object.points.forEach(function(item,index,collection){
+							self.context.lineTo(item.x,item.y);
+						});
+						this.context.stroke();			
+					}
+			</pre>
+		</section>
+		<footer></footer>
+	</article>
+
+</div>
