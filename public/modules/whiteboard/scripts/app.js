@@ -41,7 +41,7 @@
 		//STATE
 		//	manage the state of the application
 		var drawmode = false;
-		var currentTool = mainManager.tools.line;
+		var currentTool = mainManager.tools.pen;
 
 			/**
 			 * @event {ContextMenu}
@@ -134,6 +134,13 @@
 				return false;
 			},false);
 			/**
+			 * @event {DragExit}
+			 */
+			canvasElement.addEventListener("dragexit",function(event){
+				event.preventDefault();
+				return false;
+			},false);
+			/**
 			 * @event {DragEnter}
 			 */
 			canvasElement.addEventListener("dragenter",function(event){
@@ -145,12 +152,32 @@
 			 */
 			canvasElement.addEventListener("drop",function(event){
 				event.preventDefault();
-				var id = event.dataTransfer.getData('Text');
-				var storageItem = localStorage.getItem(id);
-				var itemObject = JSON.parse(storageItem);
-					
-				mainManager.mergeHistory(itemObject.data);
-				mainManager.redraw();
+				//TEXT FILE
+				//	user is draging file from the filesystem onto
+				//	the canvas object
+				if( event.dataTransfer.files.length==1 ){
+					var reader = new FileReader();
+						reader.addEventListener("load",function(event){
+							try{
+								var itemObject = JSON.parse(event.target.result);
+								if(itemObject.data){
+									mainManager.mergeHistory(itemObject.data);
+									mainManager.redraw();
+								}
+							}catch(e){}
+						},false);
+						reader.readAsText(event.dataTransfer.files[0]);
+				//TEMPLATE FILE
+				//	user is draging an icon from the template manager
+				//	onto the the canvas object
+				}else{
+					var id = event.dataTransfer.getData('Text');
+					var storageItem = localStorage.getItem(id);
+					var itemObject = JSON.parse(storageItem);
+					mainManager.mergeHistory(itemObject.data);
+					mainManager.redraw();
+				}
+
 				return false;
 			},false);
 
@@ -241,12 +268,25 @@
 										}
 									));
 									win.document.close();
-								
-								var can = window.open( mainManager.canvas.toDataURL(), "imahge" );
 							},false);
 							saveListItem.appendChild(saveListButton);
 						return saveListItem;
 					})());
+				//render
+				listItemContent.appendChild((function(){
+					var li = document.createElement("li");
+					var btn = document.createElement("button");
+						btn.classList.add("btn");
+						btn.classList.add("render");
+						btn.setAttribute("title","Render");
+						btn.appendChild( document.createTextNode("Render") );
+						btn.addEventListener("click",function(event){
+							event.preventDefault();
+							var can = window.open( mainManager.canvas.toDataURL(), "image" );
+						},false);	
+					li.appendChild(btn);
+					return li;
+				})());
 				//save to template
 				listItemContent.appendChild(
 					(function(){
@@ -323,7 +363,6 @@
 						var lineListButton = document.createElement("button");
 							lineListButton.classList.add("btn");
 							lineListButton.classList.add("line");
-							lineListButton.classList.add("selected");
 							lineListButton.setAttribute("title","Line");
 							lineListButton.addEventListener("click",function(event){
 								event.preventDefault();
@@ -388,6 +427,7 @@
 						var penListButton = document.createElement("button");
 							penListButton.classList.add("btn");
 							penListButton.classList.add("pen");
+							penListButton.classList.add("selected");
 							penListButton.setAttribute("title","Pen");
 							penListButton.addEventListener("click",function(event){
 								event.preventDefault();
