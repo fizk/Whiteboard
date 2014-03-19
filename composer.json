@@ -1,3 +1,6 @@
 {
-	"name":"fizk/whiteboard"
+	"name":"fizk/whiteboard",
+	"autoload": {
+        "psr-4": {"Whiteboard\\": "src/Whiteboard"}
+    },
 }
